@@ -1,62 +1,48 @@
 console.log("Token saya:", import.meta.env.VITE_READ_ACCESS_TOKEN);
 
+// src/App.tsx
 import { usePopularMovies } from "./hooks/useMovies";
+import MovieCard from "./components/MovieCard";
 
 function App() {
   const { data: movies, isLoading, isError } = usePopularMovies();
 
+  // Debugging: Cek apakah data masuk ke sini
+  console.log("Daftar Film:", movies);
+
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-slate-950">
-        <p className="text-white animate-pulse">Loading Movies...</p>
+      <div className="flex h-screen items-center justify-center bg-slate-950 text-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-red-600 mr-4"></div>
+        <p className="animate-pulse">Loading Movies...</p>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="flex h-screen items-center justify-center bg-slate-950">
-        <p className="text-red-500">
-          Gagal memuat data. Periksa koneksi/Token API.
-        </p>
+      <div className="flex h-screen items-center justify-center bg-slate-950 text-red-500 p-4 text-center">
+        <p>Gagal memuat data. Periksa file .env dan restart terminal (npm run dev).</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-8">
-      {/* Judul sesuai kebutuhan Figma */}
-      <h1 className="text-3xl font-bold mb-8 text-center md:text-left">
-        Popular Movies
-      </h1>
+    <div className="min-h-screen bg-slate-950 text-white p-6 md:p-12">
+      {/* Header Section */}
+      <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter">
+            Popular <span className="text-red-600">Movies</span>
+          </h1>
+          <p className="text-slate-400 text-sm mt-1">Discover the most trending movies this week.</p>
+        </div>
+      </header>
 
-      {/* Grid Kartu Film */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      {/* Grid Kartu Film - Responsive Layout */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 lg:gap-8">
         {movies?.map((movie: any) => (
-          <div
-            key={movie.id}
-            className="bg-slate-900 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300 shadow-xl"
-          >
-            {/* Poster Film */}
-            <img
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
-              className="w-full h-auto"
-            />
-
-            {/* Info Film */}
-            <div className="p-4">
-              <h2 className="font-bold text-sm truncate">{movie.title}</h2>
-              <div className="flex justify-between items-center mt-2">
-                <span className="text-yellow-400 text-xs">
-                  ⭐ {movie.vote_average.toFixed(1)}
-                </span>
-                <span className="text-slate-500 text-[10px]">
-                  {movie.release_date?.split("-")[0]}
-                </span>
-              </div>
-            </div>
-          </div>
+          <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
     </div>
