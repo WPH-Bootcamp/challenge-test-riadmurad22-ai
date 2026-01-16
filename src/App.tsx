@@ -1,3 +1,5 @@
+console.log("Token saya:", import.meta.env.VITE_READ_ACCESS_TOKEN);
+
 import { usePopularMovies } from "./hooks/useMovies";
 
 function App() {
