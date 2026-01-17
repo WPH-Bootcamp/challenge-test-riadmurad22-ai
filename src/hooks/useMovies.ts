@@ -5,9 +5,9 @@ export const usePopularMovies = () => {
   return useQuery({
     queryKey: ["popularMovies"],
     queryFn: async () => {
-      const { data } = await api.get("/movie/popular");
-
-      return data.results;
+      const response = await api.get("/movie/popular");
+      // SANGAT PENTING: Harus me-return data.results
+      return response.data.results;
     },
   });
 };

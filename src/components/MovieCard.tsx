@@ -1,36 +1,28 @@
-// src/components/MovieCard.tsx
-
-interface Movie {
-  title: string;
-  poster_path: string;
-  vote_average: number;
-  release_date: string;
+interface MovieProps {
+  movie: {
+    title: string;
+    poster_path: string;
+    vote_average: number;
+    release_date: string;
+  };
 }
 
-const MovieCard = ({ movie }: { movie: Movie }) => {
-  // Base URL untuk gambar TMDB
-  const imageUrl = "https://image.tmdb.org/t/p/w500";
+const MovieCard = ({ movie }: MovieProps) => {
+  const IMG_URL =
+    import.meta.env.VITE_TMDB_IMAGE_URL || "https://image.tmdb.org/t/p/w500";
 
   return (
-    <div className="bg-slate-900 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300 shadow-xl flex flex-col h-full">
-      {/* Poster Film */}
+    <div className="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300">
       <img
-        src={movie.poster_path ? `${imageUrl}${movie.poster_path}` : 'https://via.placeholder.com/500x750?text=No+Image'}
+        src={`${IMG_URL}${movie.poster_path}`}
         alt={movie.title}
-        className="w-full aspect-2/3 object-cover"
+        className="w-full h-auto"
       />
-
-      {/* Info Film */}
-      <div className="p-4 flex flex-col grow">
-        <h2 className="font-bold text-sm truncate text-white mb-2">{movie.title}</h2>
-        <div className="flex justify-between items-center mt-auto">
-          <span className="text-yellow-400 text-xs font-semibold">
-            ⭐ {movie.vote_average.toFixed(1)}
-          </span>
-          <span className="text-slate-500 text-[10px]">
-            {movie.release_date?.split("-")[0] || "N/A"}
-          </span>
-        </div>
+      <div className="p-3 text-white">
+        <h3 className="font-bold text-sm truncate">{movie.title}</h3>
+        <p className="text-yellow-400 text-xs mt-1">
+          ⭐ {movie.vote_average.toFixed(1)}
+        </p>
       </div>
     </div>
   );

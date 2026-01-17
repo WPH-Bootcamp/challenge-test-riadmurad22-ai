@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const movieApi = axios.create({
-  baseURL: import.meta.env.VITE_TMDB_BASE_URL,
+const api = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
+    Authorization: `Bearer ${import.meta.env.VITE_READ_ACCESS_TOKEN}`,
+    Accept: "application/json",
   },
 });
 
-export default movieApi;
+export default api;
